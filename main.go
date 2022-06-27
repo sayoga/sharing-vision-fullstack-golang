@@ -2,21 +2,12 @@ package main
 
 import "fmt"
 import "net/http"
-import _ "html/template"
 import "encoding/json"
-import _ "reflect"
 import "strings"
-import _ "path"
 import "database/sql"
 import _ "github.com/go-sql-driver/mysql"
 
-// type posts struct{
-// 	id string
-// 	title string
-// 	content string
-// 	category string
-// 	status string
-// }
+
 
 func connect() (*sql.DB, error) {
     db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/svgodb")
@@ -26,90 +17,6 @@ func connect() (*sql.DB, error) {
 
     return db, nil
 }
-
-// func sqlQuery(w http.ResponseWriter, r *http.Request) {
-//     db, err := connect()
-//     if err != nil {
-//         fmt.Println(err.Error())
-//         return
-//     }
-//     defer db.Close()
-
-//     // var age = 27
-//     rows, err := db.Query("select id, title, content, category, status from posts")
-//     if err != nil {
-//         fmt.Println(err.Error())
-//         return
-//     }
-//     defer rows.Close()
-
-//     var result []posts
-
-//     for rows.Next() {
-//         var each = posts{}
-//         var err = rows.Scan(&each.id, &each.title, &each.content, &each.category, &each.status)
-
-//         if err != nil {
-//             fmt.Println(err.Error())
-//             return
-//         }
-
-//         result = append(result, each)
-//     }
-
-//     if err = rows.Err(); err != nil {
-//         fmt.Println(err.Error())
-//         return
-//     }
-
-//     for _, each := range result {
-//         fmt.Println(each.title)
-//     }
-// }
-
-// func routeIndexGet(w http.ResponseWriter, r *http.Request) {
-//     if r.Method == "GET" {
-//         var tmpl = template.Must(template.New("form").ParseFiles("view.html"))
-//         var err = tmpl.Execute(w, nil)
-
-//         if err != nil {
-//             http.Error(w, err.Error(), http.StatusInternalServerError)
-//         }
-//         return
-//     }
-
-//     http.Error(w, "", http.StatusBadRequest)
-// }
-
-// func routeSubmitPost(w http.ResponseWriter, r *http.Request) {
-//     if r.Method == "POST" {
-//         var tmpl = template.Must(template.New("form").ParseFiles("view.html"))
-
-//         if err := r.ParseForm(); err != nil {
-//             http.Error(w, err.Error(), http.StatusInternalServerError)
-//             return
-//         }
-
-//         var name = r.FormValue("name")
-//         var message = r.Form.Get("message")
-
-//         var data = map[string]string{"name": name, "message": message}
-
-//         if err := tmpl.Execute(w, data); err != nil {
-//             http.Error(w, err.Error(), http.StatusInternalServerError)
-//         }
-//         return
-//     }
-
-//     http.Error(w, "", http.StatusBadRequest)
-// }
-
-// func handleIndex(w http.ResponseWriter, r *http.Request) {
-//     tmpl := template.Must(template.ParseFiles("view.html"))
-//     if err := tmpl.Execute(w, nil); err != nil {
-//         http.Error(w, err.Error(), http.StatusInternalServerError)
-//     }
-// }
 
 func handleSave(w http.ResponseWriter, r *http.Request) {
     if r.Method == "POST" {
@@ -259,12 +166,18 @@ func deleteDB(id string)(string){
     return "Berhasil menghapus data"
 }
 
-func main(){
+func writeRes(code string, message string, data string)([]byte){
+    resp := make(map[string]string)
+    resp["code"] = code
+    resp["message"] = message
+    resp["data"] = data
+    jsonResp, err := json.Marshal(resp)
+    if err != nil {}
+    return jsonResp
+}
 
-    // http.HandleFunc("/", handleIndex)
-    // http.HandleFunc("/save", handleSave)
-
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+func main(){    
+    http.HandleFunc("/article/", func(w http.ResponseWriter, r *http.Request) {
         switch r.Method {
         case "POST":
             decoder := json.NewDecoder(r.Body)
@@ -278,51 +191,27 @@ func main(){
                 http.Error(w, err.Error(), http.StatusInternalServerError)
                 return
             }
-            messageDB := insertDB(payload.Title, payload.Content, payload.Category, payload.Status)
-            resp := make(map[string]string)
-            resp["code"] = "200"
-            resp["message"] = messageDB
-            resp["data"] = ""
-            jsonResp, err := json.Marshal(resp)
-            if err != nil {}
-            w.Write(jsonResp)
-        default:
-            http.Error(w, "", http.StatusBadRequest)
-        }
-    })
-    
-    http.HandleFunc("/article/", func(w http.ResponseWriter, r *http.Request) {
-        switch r.Method {
-        case "POST":
-            decoder := json.NewDecoder(r.Body)
-            payload := struct {
-                Title       string `json:"title" validate:"required,min=20"`
-                Content     string `json:"content" validate:"required,min=200"`
-                Category    string `json:"category" validate:"required,min=3"`
-                Status      string `json:"status" validate:"required"`
-            }{}
-            if err := decoder.Decode(&payload); err != nil {
-                http.Error(w, err.Error(), http.StatusInternalServerError)
-                return
-            }
 
-            if (payload.Status == "publish" && payload.Status != "draft" && payload.Status != "trash"){
-                messageDB := insertDB(payload.Title, payload.Content, payload.Category, payload.Status)
-                resp := make(map[string]string)
-                resp["code"] = "200"
-                resp["message"] = messageDB
-                resp["data"] = ""
-                jsonResp, err := json.Marshal(resp)
-                if err != nil {}
-                w.Write(jsonResp)
+            if (len(payload.Title) < 20){
+                    w.Write(writeRes("400","Title minimal 20 karakter",""))
             } else {
-                resp := make(map[string]string)
-                resp["code"] = "400"
-                resp["message"] = "Status invalid"
-                resp["data"] = ""
-                jsonResp, err := json.Marshal(resp)
-                if err != nil {}
-                w.Write(jsonResp)
+                if (len(payload.Content) < 200){
+                    w.Write(writeRes("400","Content minimal 200 karakter",""))
+                } else {
+                    if (len(payload.Category) < 3){
+                        w.Write(writeRes("400","Category minimal 3 karakter",""))
+                    } else {
+                        switch payload.Status {
+                        case "publish", "draft", "trash":
+                            messageDB := insertDB(payload.Title, payload.Content, payload.Category, payload.Status)
+                            w.Write(writeRes("200",messageDB,""))
+                        default:
+                            {
+                                w.Write(writeRes("400","Status invalid",""))
+                            }
+                        }
+                    }
+                }
             }
         case "GET":
                 sUrl := strings.Split(r.URL.Path[1:], "/")
@@ -334,14 +223,7 @@ func main(){
                 }   else {
                     query =  "SELECT * FROM posts WHERE id="+sUrl[1]
                 }
-                
-                resp := make(map[string]string)
-                resp["code"] = "200"
-                resp["message"] = "Berhasil mendapatkan data"
-                resp["data"] = selectDB(query)
-                jsonResp, err := json.Marshal(resp)
-                if err != nil {}
-                w.Write(jsonResp)
+                w.Write(writeRes("200","Berhasil mendapatkan data",selectDB(query)))
         case "PUT":
             sUrl := strings.Split(r.URL.Path[1:], "/")
             decoder := json.NewDecoder(r.Body)
@@ -356,33 +238,35 @@ func main(){
                 return
             }
 
-            messageDB := updateDB(payload.Title, payload.Content, payload.Category, payload.Status, sUrl[1])
-            resp := make(map[string]string)
-            resp["code"] = "200"
-            resp["message"] = messageDB
-            resp["data"] = ""
-            jsonResp, err := json.Marshal(resp)
-            if err != nil {}
-            w.Write(jsonResp)
+            if (len(payload.Title) < 20){
+                w.Write(writeRes("400","Title minimal 20 karakter",""))
+            } else {
+                if (len(payload.Content) < 200){
+                    w.Write(writeRes("400","Content minimal 200 karakter",""))
+                } else {
+                    if (len(payload.Category) < 3){
+                        w.Write(writeRes("400","Category minimal 3 karakter",""))
+                    } else {
+                        switch payload.Status {
+                        case "publish", "draft", "trash":
+                            messageDB := updateDB(payload.Title, payload.Content, payload.Category, payload.Status, sUrl[1])
+                            w.Write(writeRes("200",messageDB,""))
+                        default:
+                            {
+                                w.Write(writeRes("400","Status invalid",""))
+                            }
+                        }
+                    }
+                }
+            }
         case "DELETE":
             sUrl := strings.Split(r.URL.Path[1:], "/")
 
             messageDB := deleteDB(sUrl[1])
-            resp := make(map[string]string)
-            resp["code"] = "200"
-            resp["message"] = messageDB
-            resp["data"] = ""
-            jsonResp, err := json.Marshal(resp)
-            if err != nil {}
-            w.Write(jsonResp)        
+            w.Write(writeRes("200",messageDB,""))     
         default:
             http.Error(w, "", http.StatusBadRequest)
         }
     })
     http.ListenAndServe(":9000", nil)
 }
-
-// func HelloServer(w http.ResponseWriter, r *http.Request) {
-//     s := strings.Split(r.URL.Path[1:], "/")
-//     fmt.Fprintf(w, "Hello, LIMIT %s OFFSET %s !", s[1], s[2])
-// }
