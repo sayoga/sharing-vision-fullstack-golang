@@ -1,0 +1,549 @@
+{{define "index"}}
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Sharing Vision Test: Articles</title>
+    <!-- <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png"> -->
+    <!-- <link rel="manifest" href="http://localhost:9000/assets/favicon/manifest.json"> -->
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="http://localhost:9000/component/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="http://localhost:9000/component/css/vendors/simplebar.css">
+
+    <link href="http://localhost:9000/component/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css"> -->
+    <link href="http://localhost:9000/component/css/examples.css" rel="stylesheet">
+    <link rel="cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <!-- <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-1"></script> -->
+    <script>
+        // window.dataLayer = window.dataLayer || [];
+
+        // function gtag() {
+        //     dataLayer.push(arguments);
+        // }
+        // gtag('js', new Date());
+        // gtag('config', 'UA-118965717-1');
+    </script>
+    <!-- <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+        <div class="sidebar-brand d-none d-md-flex">
+            <span>FE Test</span>
+        </div>
+        <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+            <li class="nav-item"><a class="nav-link">
+                    Articles</a></li>
+            <li class="nav-title">Posts</li>
+            <li class="nav-item" id="sm_allposts" style="cursor:pointer;"><a class="nav-link">
+                    <svg class="nav-icon">
+                        <!-- <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use> -->
+                    </svg> All Posts</a></li>
+            <li class="nav-item" id="sm_addnew" style="cursor:pointer;"><a class="nav-link">
+                    <svg class="nav-icon">
+                        <!-- <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use> -->
+                    </svg> Add New</a></li>
+            <li class="nav-item" id="sm_preview" style="cursor:pointer;"><a class="nav-link">
+                    <svg class="nav-icon">
+                        <!-- <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use> -->
+                    </svg> Preview</a></li>
+        </ul>
+    </div>
+    <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+        <header class="header header-sticky mb-4">
+            <div class="container-fluid">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb my-0 ms-2">
+                        <li class="breadcrumb-item">
+                            <span>Posts</span>
+                        </li>
+                        <li class="breadcrumb-item active" id="crumb_sm_all"><span>All Posts</span></li>
+                        <li class="breadcrumb-item active" id="crumb_sm_add" style="display:none;"><span>Add New</span>
+                        </li>
+                        <li class="breadcrumb-item active" id="crumb_sm_pre" style="display:none;"><span>Preview</span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+        <div class="body flex-grow-1 px-3">
+            <div class="container-lg">
+                <div class="row">
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="c-chart-wrapper" style="height:300px;margin-top:10px;" id="body_sm_all">
+                            <div id="exTab2">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#1" data-toggle="tab">Publshed <span class="badge badge-primary" id="count-publish"></span></a>
+                                    </li>
+                                    <li><a href="#2" data-toggle="tab">Drafts  <span class="badge badge-primary" id="count-draft"></span></a>
+                                    </li>
+                                    <li><a href="#3" data-toggle="tab">Thrashed  <span class="badge badge-primary" id="count-thrash"></span></a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content ">
+                                    <div class="tab-pane active" id="1" style="padding:10px;">
+                                        <table class="table table-bordered table-striped nowrap" id="tab_publihed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Category</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_published">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="2" style="padding:10px;">
+                                        <table class="table table-bordered table-striped nowrap" id="tab_draft" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Category</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_draft">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="3" style="padding:10px;">
+                                        <table class="table table-bordered table-striped nowrap" id="tab_thrashed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Category</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_thrashed">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="c-chart-wrapper" style="height:300px;margin-top:10px;display:none; padding:10px;"
+                            id="body_sm_add">
+                            <div class="form fs-12">
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label">Title</label>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" name="add_title" id="add_title">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label">Content</label>
+                                    <div class="col-9">
+                                        <textarea class="form-control" name="add_content" id="add_content">    
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label">Category</label>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" name="add_category" id="add_category">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12" style="text-align:right;">
+                                        <button class="btn btn-primary" onclick="savePost('publish')">PUBLISH</button>
+                                        <button class="btn btn-secondary" onclick="savePost('draft')">DRAFT</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="c-chart-wrapper" style="height:300px;margin-top:10px;display:none;"
+                            id="body_sm_pre">
+                            <table class="table table-bordered table-striped nowrap" id="tab_preview">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_preview">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editPost" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Data</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">Title</label>
+                    <div class="col-9">
+                        <input type="hidden" class="form-control" name="edit_id" id="edit_id">
+                        <input type="text" class="form-control" name="edit_title" id="edit_title">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">Content</label>
+                    <div class="col-9">
+                        <textarea class="form-control" name="edit_content" id="edit_content">    
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">Category</label>
+                    <div class="col-9">
+                        <input type="text" class="form-control" name="edit_category" id="edit_category">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12" style="text-align:right;">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="editPublishPost()">PUBLISH</button>
+                <button class="btn btn-secondary" onclick="editDraftPost()">DRAFT</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script> -->
+    <script src="http://localhost:9000/component/vendors/simplebar/js/simplebar.min.js"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/normalize-whitespace/prism-normalize-whitespace.js"></script> -->
+
+    <!-- <script src="vendors/chart.js/js/chart.min.js"></script> -->
+    <!-- <script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
+    <script src="vendors/@coreui/utils/js/coreui-utils.js"></script> -->
+    <!-- <script src="js/main.js"></script> -->
+    <script>
+        $("#sm_allposts").click(function () {
+            $("#crumb_sm_all").show();
+            $("#crumb_sm_add").hide();
+            $("#crumb_sm_pre").hide();
+
+            $("#body_sm_all").show();
+            $("#body_sm_add").hide();
+            $("#body_sm_pre").hide();
+        });
+
+        $("#sm_addnew").click(function () {
+            $("#crumb_sm_all").hide();
+            $("#crumb_sm_add").show();
+            $("#crumb_sm_pre").hide();
+
+            $("#body_sm_all").hide();
+            $("#body_sm_add").show();
+            $("#body_sm_pre").hide();
+        });
+
+        $("#sm_preview").click(function () {
+            $("#crumb_sm_all").hide();
+            $("#crumb_sm_add").hide();
+            $("#crumb_sm_pre").show();
+
+            $("#body_sm_all").hide();
+            $("#body_sm_add").hide();
+            $("#body_sm_pre").show();
+        });
+    </script>
+
+    <script>
+        $(document).ready( function () {
+            // $('#tab_preview').DataTable();
+            loadAllPost();
+        } );
+
+        function loadAllPost(){
+            // $('#tab_preview').destroy();
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:9000/article/1/100',
+                data: '',
+                contentType: 'application/json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    var data = JSON.parse(res.data);
+                    var html_published = ''; var html_draft = '';  var html_thrash = '';
+                    var c_p = 0; var c_d = 0; var c_t = 0;
+                    for (i=0; i<data.length; i++){
+                        if (data[i]['status'] == 'publish'){  
+                            c_p = c_p + 1;                   
+                            html_published += `
+                                <tr>
+                                    <td>`+data[i]['title']+`</td>
+                                    <td>`+data[i]['category']+`</td>
+                                    <td><button class="form-control edit-data btn btn-primary" data-id="`+data[i]['id']+`" data-title="`+data[i]['title']+`" data-content="`+data[i]['content']+`" data-category="`+data[i]['category']+`" style="width:50px;"><i class="fa fa-edit" style="font-size:12px"></i></button> &nbsp;&nbsp;&nbsp; <button class="form-control hapus-data btn btn-danger" data-id="`+data[i]['id']+`" data-title="`+data[i]['title']+`" data-content="`+data[i]['content']+`" data-category="`+data[i]['category']+`" style="width:50px;"><i class="fa fa-trash" style="font-size:12px"></i></button></td>
+                                </tr>
+                            `;
+                        }
+                        else if (data[i]['status'] == 'draft'){    
+                            c_d = c_d + 1;                        
+                            html_draft += `
+                                <tr>
+                                    <td>`+data[i]['title']+`</td>
+                                    <td>`+data[i]['category']+`</td>
+                                    <td><button class="form-control edit-data btn btn-primary" data-id="`+data[i]['id']+`" data-title="`+data[i]['title']+`" data-content="`+data[i]['content']+`" data-category="`+data[i]['category']+`" style="width:50px;"><i class="fa fa-edit" style="font-size:12px"></i></button> &nbsp;&nbsp;&nbsp; <button class="form-control hapus-data btn btn-danger" data-id="`+data[i]['id']+`" data-title="`+data[i]['title']+`" data-content="`+data[i]['content']+`" data-category="`+data[i]['category']+`" style="width:50px;"><i class="fa fa-trash" style="font-size:12px"></i></button></td>
+                                </tr>
+                            `;
+                        }
+                        else if (data[i]['status'] == 'thrash'){  
+                            c_t = c_t + 1;                                                  
+                            html_thrash += `
+                                <tr>
+                                    <td>`+data[i]['title']+`</td>
+                                    <td>`+data[i]['category']+`</td>
+                                    <td><button class="form-control edit-data btn btn-primary" data-id="`+data[i]['id']+`" data-title="`+data[i]['title']+`" data-content="`+data[i]['content']+`" data-category="`+data[i]['category']+`" style="width:50px;"><i class="fa fa-edit" style="font-size:12px"></i></button> &nbsp;&nbsp;&nbsp; <button class="form-control hapus-data-total btn btn-danger" data-id="`+data[i]['id']+`" style="width:50px;"><i class="fa fa-trash" style="font-size:12px"></i></button></td>
+                                </tr>
+                            `;
+                        }
+                    }
+
+                    $("#count-publish").html(c_p);
+                    $("#count-draft").html(c_d);
+                    $("#count-thrash").html(c_t);
+
+                    $("#tbody_published").html(html_published);
+                    $("#tbody_draft").html(html_draft);
+                    $("#tbody_thrashed").html(html_thrash);
+                    $("#tbody_preview").html(html_published);
+                    // $('#tab_preview').DataTable();
+                }
+            });
+        }
+
+        function clearInput(){
+            $('#add_title').val('');
+            $('#add_content').val('');
+            $('#add_category').val('');
+        }
+
+        function clearInput1(){
+            $('#edit_id').val('');
+            $('#edit_title').val('');
+            $('#edit_content').val('');
+            $('#edit_category').val('');
+        }
+
+        function savePost(status){
+            var data = JSON.stringify({
+                title: $('#add_title').val(),
+                content: $('#add_content').val(),
+                category: $('#add_category').val(),
+                status: status
+            });
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:9000/article/',
+                data: data,
+                contentType: 'application/json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.code == '200'){
+                        alert(res.message);
+                        loadAllPost();
+                        clearInput();
+                    }
+                    else{
+                        alert(res.message);
+                    }
+                }
+            });
+        }
+
+        $(document).on('click', '.hapus-data', function() {
+            var id = $(this).data('id');
+            var title = $(this).data('title');
+            var content = $(this).data('content');
+            var category = $(this).data('category');
+            let text = "Apakah Anda yakin memindahkan postingan berikut ke thrash?";
+            if (confirm(text) == true) {
+                trashingPost(id,title,content,category)
+            } else {
+            }
+        });
+
+        function trashingPost(id,title,content,category){  
+            var data = JSON.stringify({
+                title: title,
+                content: content,
+                category: category,
+                status: 'thrash'
+            });          
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:9000/article/'+id,
+                data: data,
+                contentType: 'application/json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.code == '200'){
+                        alert(res.message);
+                        loadAllPost();
+                    }
+                }
+            });
+        }
+
+        $(document).on('click', '.hapus-data-total', function() {
+            var id = $(this).data('id');
+            let text = "Apakah Anda yakin menghapus data berikut?";
+            if (confirm(text) == true) {
+                deletePost(id)
+            } else {
+            }
+        });
+
+        function deletePost(id){  
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:9000/article/'+id,
+                data: "",
+                contentType: 'application/json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.code == '200'){
+                        alert(res.message);
+                        loadAllPost();
+                    }
+                }
+            });
+        }
+
+        $(document).on('click', '.edit-data', function() {
+            var id = $(this).data('id');
+            var title = $(this).data('title');
+            var content = $(this).data('content');
+            var category = $(this).data('category');
+            $('#edit_id').val(id);
+            $('#edit_title').val(title);
+            $('#edit_content').val(content);
+            $('#edit_category').val(category);
+            $('#editPost').modal('show');
+        });
+
+        function editPublishPost(){  
+            var data = JSON.stringify({
+                title:  $('#edit_title').val(),
+                content:  $('#edit_content').val(),
+                category:  $('#edit_category').val(),
+                status: 'publish'
+            });          
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:9000/article/'+$('#edit_id').val(),
+                data: data,
+                contentType: 'application/json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.code == '200'){
+                        alert(res.message);
+                        loadAllPost();
+                        clearInput1();
+                        $('#editPost').modal('hide');
+                    }
+                    else{
+                        alert(res.message);
+                    }
+                }
+            });
+        }
+
+        function editDraftPost(){  
+            var data = JSON.stringify({
+                title:  $('#edit_title').val(),
+                content:  $('#edit_content').val(),
+                category:  $('#edit_category').val(),
+                status: 'draft'
+            });          
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:9000/article/'+$('#edit_id').val(),
+                data: data,
+                contentType: 'application/json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.code == '200'){
+                        alert(res.message);
+                        loadAllPost();
+                        clearInput1();
+                        $('#editPost').modal('hide');
+                    }
+                    else{
+                        alert(res.message);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+{{end}}
+
+{{define "test"}}
+<html>
+    <head>
+        <title>Other Template</title>
+    </head>
+    <body>
+        <h2>Test</h2>
+    </body>
+</html>
+{{end}}

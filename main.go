@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 import "net/http"
+import "html/template"
 import "encoding/json"
 import "strings"
 import "database/sql"
@@ -177,6 +178,18 @@ func writeRes(code string, message string, data string)([]byte){
 }
 
 func main(){    
+    http.Handle("/component/",
+        http.StripPrefix("/component/",
+            http.FileServer(http.Dir("public/component"))))
+
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        var tmpl = template.Must(template.New("index").ParseFiles("public/index.html"))
+        if err := tmpl.Execute(w, nil); err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+        }
+    })
+
+
     http.HandleFunc("/article/", func(w http.ResponseWriter, r *http.Request) {
         switch r.Method {
         case "POST":
@@ -248,7 +261,7 @@ func main(){
                         w.Write(writeRes("400","Category minimal 3 karakter",""))
                     } else {
                         switch payload.Status {
-                        case "publish", "draft", "trash":
+                        case "publish", "draft", "thrash":
                             messageDB := updateDB(payload.Title, payload.Content, payload.Category, payload.Status, sUrl[1])
                             w.Write(writeRes("200",messageDB,""))
                         default:
