@@ -26,3 +26,6 @@ Back End (Golang):
       
 Front End (Bootstrap & JQuery)
 - Untuk file FE-nya ada di folder public, dan route sama seperti BE ada di file main.go
+
+SQL
+- Terlampir juga mengenai file sql sesuai dengan kebutuhan tabel yang dimaksud
