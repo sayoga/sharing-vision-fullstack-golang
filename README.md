@@ -7,20 +7,20 @@ Back End (Golang):
       POST <br>
       http://localhost:9000/article/
      
-  2)  Menampilkan seluruh article di database dengan paging pada parameter limit & offset
-      GET
+  2)  Menampilkan seluruh article di database dengan paging pada parameter limit & offset <br>
+      GET <br>
       http://localhost:9000/article/1/10
       
-  3)  Menampilkan article dengan id yang di-request
-      GET
+  3)  Menampilkan article dengan id yang di-request <br>
+      GET <br>
       http://localhost:9000/article/1
       
-  4)  Merubah data article dengan id yang di-request
-      PUT
+  4)  Merubah data article dengan id yang di-request <br>
+      PUT <br>
       http://localhost:9000/article/1
       
-  5)  Menghapus data article dengan id yang di request
-      DELETE
+  5)  Menghapus data article dengan id yang di request <br>
+      DELETE <br>
       http://localhost:9000/article/1
       
       
