@@ -3,8 +3,8 @@
 
 Back End (Golang):
 - Untuk semua endpoint yang dibutuhkan sudah dimasukan masing-masing route, dan port localhost yang digunakan adalah 9000. Semua route baik BE maupun FE ada di file main.go
-  1)  Membuat article baru
-      POST
+  1)  Membuat article baru <br>
+      POST <br>
       http://localhost:9000/article/
      
   2)  Menampilkan seluruh article di database dengan paging pada parameter limit & offset
