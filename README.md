@@ -2,7 +2,7 @@
 
 
 Back End (Golang):
-- Untuk semua endpoint sudah di masukan masing-masing route, dan port localhost yang digunakan adalah 9000. Semua route baik BE maupun FE ada di file main.go
+- Untuk semua endpoint yang dibutuhkan sudah dimasukan masing-masing route, dan port localhost yang digunakan adalah 9000. Semua route baik BE maupun FE ada di file main.go
   1)  Membuat article baru
       POST
       http://localhost:9000/article/
