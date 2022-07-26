@@ -177,7 +177,12 @@ func writeRes(code string, message string, data string)([]byte){
     return jsonResp
 }
 
+func enableCors(w *http.ResponseWriter) {
+    (*w).Header().Set("Access-Control-Allow-Origin", "*")
+    }
+
 func main(){    
+    
     http.Handle("/component/",
         http.StripPrefix("/component/",
             http.FileServer(http.Dir("public/component"))))
@@ -191,6 +196,7 @@ func main(){
 
 
     http.HandleFunc("/article/", func(w http.ResponseWriter, r *http.Request) {
+        enableCors(&w)
         switch r.Method {
         case "POST":
             decoder := json.NewDecoder(r.Body)
